@@ -13,12 +13,13 @@ app.use(bodyParser.json());
 const debugMode = true;
 app.post("*", async (request, response) => {
 	var authtoken = request.headers.authorization;
-	console.log("Incoming request for " + request.url);
+	console.log("Incoming : " + request.url);
 	try {
 		authtoken = authtoken.replace("Bearer", "").trim();
 	} catch (e) {}
 	var result = await forwardRequestTo(request.body, authtoken, request.url);
-	response.json(result);
+	let responseCode = result.code || 200;
+	response.status(responseCode).json(result);
 	// console.log("sent response as : " +beautify(result, null, 2, 100) +"\nSuccessfully Sent the response.");
 });
 
