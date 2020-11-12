@@ -4,14 +4,13 @@ var cors = require("cors");
 const bodyParser = require("body-parser");
 const app = express();
 var beautify = require("json-beautify");
-const port = 3000;
-const serviceUrl = "https://questaapp.herokuapp.com";
-// const serviceUrl = "localhost:9090";
+const port = 1111;
+const serviceUrl = "http://localhost:9090";
 
 app.use(cors());
 app.use(bodyParser.json());
 const debugMode = true;
-app.post("*", async (request, response) => {
+app.post("/api/*", async (request, response) => {
 	var authtoken = request.headers.authorization;
 	console.log("Incoming : " + request.url);
 	try {
@@ -52,4 +51,7 @@ forwardRequestTo = (reqdata, authToken, requrl) => {
 		}
 	);
 };
-app.listen(port);
+app.listen(port, () => {
+	console.log("API Gateway is ready to serve on : " + port);
+});
+
